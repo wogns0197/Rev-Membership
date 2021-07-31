@@ -48,7 +48,7 @@ const HeaderMenu = styled.li`
   transition: .3s;
 `
 
-const ViewComponent = (menuSelect:number): ReactElement => {
+const ViewComponent = (menuSelect:number) => {
   switch (menuSelect) {
     case 0:      
       return (

@@ -1,6 +1,6 @@
-import GetNameComp from './GetNameComp';
+import React, { useState } from 'react';
+
 import InputPhoneNumber from './InputPhoneNumber';
-import React from 'react';
 import styled from 'styled-components';
 import theme from '../style/theme';
 
@@ -58,12 +58,54 @@ const StyledInput = styled.input`
   }
 `;
 
+const StyledButton = styled.button`
+  width: 150px;
+  height: 60px;  
+  background-color: ${({ theme }) => theme.colors.pointfontcolor};
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 15pt;
+  border-radius: 5px;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .3s;
+  
+  :hover{
+    transition: .3s;
+    transform:scale(1.03);
+    border-radius: 10px;
+  }
+`;
+
 
 const AccumulatePoint = () => {
+  const [phoneNum1, setphoneNum1] = useState<string>("010");
+  const [phoneNum2, setphoneNum2] = useState<string>("");
+  const [phoneNum3, setphoneNum3] = useState<string>("");
+
+  const [addPoint, setAddPoint] = useState<number>(500);
+  const [point, setPoint] = useState<number>(0);
+
+  // setPoint(4000);
+
   return (    
     <InputCont>
-      <InputPhoneNumber />
-      <GetNameComp />
+      <InputPhoneNumber
+        phoneNum1 = {phoneNum1}
+        phoneNum2={phoneNum2}
+        phoneNum3 = {phoneNum3}
+        setPhoneNum1={setphoneNum1}
+        setPhoneNum2={setphoneNum2}
+        setPhoneNum3={setphoneNum3}
+        onClickPhoneButton={() => {
+          alert("010" + phoneNum2 + phoneNum3)
+          setPoint(4000);
+        }}
+      />      
       <InputBox>
         <StyledText
           style={{
@@ -72,7 +114,12 @@ const AccumulatePoint = () => {
             color: theme.colors.pointfontcolor,
           }}
         >적립 포인트</StyledText>
-        <StyledInput value={500} type="number" style={{ width: "60%" }} />
+        <StyledInput
+          value={addPoint}
+          type="number"
+          style={{ width: "60%" }}
+          onChange={(e)=> setAddPoint( parseInt(e.target.value))}
+        />
         <StyledText
           style={{
             width: '10px',
@@ -103,9 +150,11 @@ const AccumulatePoint = () => {
             borderTopRightRadius: "5px",
             borderBottomRightRadius: "5px",            
           }}
-        >4000 P</StyledText>
+        >{point.toString()+ "P"}</StyledText>
       </InputBox>
-      
+      <StyledButton
+        onClick={()=>setPoint(addPoint+point)}
+      >적립하기</StyledButton>
     </InputCont>
   );
 }

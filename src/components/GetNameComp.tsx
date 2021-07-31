@@ -15,7 +15,11 @@ const Main = styled.div`
 const Name = styled.div`
 `;
 
-const GetNameComp: FC = () => {
+type Props ={
+  phoneNum: string,
+}
+
+const GetNameComp: FC<Props> = ({phoneNum}) => {
   const [clientName, setClientName] = useState<string>('default');
   return (
     <Main>
