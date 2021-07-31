@@ -1,9 +1,10 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, ReactElement, SetStateAction } from 'react';
 
-import GetNameComp from './GetNameComp';
+import {ClientData} from '../type';
 import React from 'react';
 import styled from 'styled-components';
 import theme from '../style/theme';
+import { tmpdata } from '../data/data';
 import { useState } from 'react';
 
 const Main = styled.div`
@@ -60,6 +61,11 @@ const StyledButton = styled.div`
 `;
 // 번호 입력후 자동으로 검색기능 필요
 
+const Name = styled.div`
+  border: 1px solid red;
+  width: 400px;
+`;
+
 
 type Props = {
   phoneNum1: string,
@@ -68,16 +74,34 @@ type Props = {
   setPhoneNum1: Dispatch<SetStateAction<string>>,
   setPhoneNum2: Dispatch<SetStateAction<string>>,
   setPhoneNum3: Dispatch<SetStateAction<string>>,
-  onClickPhoneButton : () => void,
+  setClientPoint: Dispatch<SetStateAction<number>>,
 }
 
 const InputPhoneNumber: FC<Props> = ({
-  phoneNum1,phoneNum2,phoneNum3,setPhoneNum1, setPhoneNum2, setPhoneNum3,onClickPhoneButton
+  phoneNum1,phoneNum2,phoneNum3,setPhoneNum1, setPhoneNum2, setPhoneNum3,setClientPoint
 }) => {
   
   
   const [HTMLELEMENT_REF3, setREF3] = useState<HTMLInputElement>();
-  const [HTMLELEMENT_BUTTONREF, setButtonREF] = useState<HTMLDivElement>();
+  const [HTMLELEMENT_BUTTONREF, setButtonREF] = useState<HTMLDivElement>();  
+  const [clientInfo, setClientInfo] = useState<ClientData>({
+    key: "",
+    name: "",
+    phonenumber: "",
+    point: -1,
+    buycount:-1,
+  });
+
+  const searchNamebyPhoneNum = (phoneNum: string)=> {    
+    tmpdata.forEach(el => {
+      if (el.phonenumber === phoneNum) {
+        // alert(el.point);
+        setClientInfo(el);
+        setClientPoint(el.point)
+        return;
+      }
+    });
+  }
 
   return (
     <Main>
@@ -111,7 +135,7 @@ const InputPhoneNumber: FC<Props> = ({
               if (e.target.value.length < 5) { setPhoneNum3(e.target.value) }
               
               // 마지막 전화번호 4자리 입력시 자동 클릭인데 3개 클릭일때 자동 클릭됨, 단순히 alert여서 그런듯
-                // if (e.target.value.length === 4) { HTMLELEMENT_BUTTONREF.click()}
+                // if (e.target.value.length === 4) { HTMLELEMENT_BUTTONREF?.click()}
               }}
               value={phoneNum3}
           />
@@ -119,16 +143,16 @@ const InputPhoneNumber: FC<Props> = ({
         <StyledButton
           ref={(ref) => setButtonREF(ref as any)}
           onClick={() => {
-            onClickPhoneButton()
+            searchNamebyPhoneNum(phoneNum1+phoneNum2+phoneNum3)            
             setPhoneNum1("010")
             setPhoneNum2("")
-            setPhoneNum3("")
+            setPhoneNum3("")                        
           }}
         >
           확인
         </StyledButton>
       </InputCont>
-      <GetNameComp phoneNum={phoneNum1+phoneNum2+phoneNum3}/>
+      <Name>{clientInfo?.name} 님</Name>
     </Main>    
   );
 }

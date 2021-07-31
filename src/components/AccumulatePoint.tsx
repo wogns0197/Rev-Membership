@@ -86,11 +86,11 @@ const AccumulatePoint = () => {
   const [phoneNum1, setphoneNum1] = useState<string>("010");
   const [phoneNum2, setphoneNum2] = useState<string>("");
   const [phoneNum3, setphoneNum3] = useState<string>("");
-
+ 
   const [addPoint, setAddPoint] = useState<number>(500);
   const [point, setPoint] = useState<number>(0);
-
-  // setPoint(4000);
+  //서버에서 불러와야함
+  
 
   return (    
     <InputCont>
@@ -101,11 +101,28 @@ const AccumulatePoint = () => {
         setPhoneNum1={setphoneNum1}
         setPhoneNum2={setphoneNum2}
         setPhoneNum3={setphoneNum3}
-        onClickPhoneButton={() => {
-          alert("010" + phoneNum2 + phoneNum3)
-          setPoint(4000);
-        }}
-      />      
+        setClientPoint={setPoint}
+      />
+      <InputBox>
+        <StyledText
+            style={{
+              borderTopLeftRadius: "5px",
+              borderBottomLeftRadius: "5px",
+              color: theme.colors.orange,
+            }}
+          >현재 포인트</StyledText>
+          <StyledText
+            style={{
+              justifyContent:'flex-end',
+              textAlign:'right',
+              width: '250px',
+              padding: '0 10px 0 5px',
+              color: theme.colors.orange,
+              borderTopRightRadius: "5px",
+              borderBottomRightRadius: "5px",            
+            }}
+          >{point.toString()+ "P"}</StyledText>
+      </InputBox>
       <InputBox>
         <StyledText
           style={{
@@ -116,7 +133,7 @@ const AccumulatePoint = () => {
         >적립 포인트</StyledText>
         <StyledInput
           value={addPoint}
-          type="number"
+          type="number"          
           style={{ width: "60%" }}
           onChange={(e)=> setAddPoint( parseInt(e.target.value))}
         />
@@ -150,10 +167,11 @@ const AccumulatePoint = () => {
             borderTopRightRadius: "5px",
             borderBottomRightRadius: "5px",            
           }}
-        >{point.toString()+ "P"}</StyledText>
+        >{(addPoint + point).toString()+ "P"}</StyledText>
       </InputBox>
       <StyledButton
-        onClick={()=>setPoint(addPoint+point)}
+        // onClick={() => setPoint(addPoint + point)}
+        // 서버작업 필요
       >적립하기</StyledButton>
     </InputCont>
   );

@@ -8,6 +8,7 @@ const colors = {
   fontlightgray: 'rgba(1,1,1, 0.2)',
   pointfontcolor: '#3792f9',
   greenfontcolor: '#45b237',
+  orange: '#FF4500',
 }
 
 const theme = {
