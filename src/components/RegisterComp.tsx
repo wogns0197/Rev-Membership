@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { registerClientData } from "../api";
 import styled from "styled-components";
 import theme from "../style/theme";
 
@@ -122,6 +123,20 @@ const RegisterComp = () => {
   const [RegPhoneNum3, setRegPhoneNum3] = useState<string>("");
   const [RegPoint, setRegPoint] = useState<number>(0);
 
+  const registerPopup = () => {
+    if (window.confirm('이름 : ' + RegClientName + '\n전화번호 : ' + RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3
+    + "\n초기포인트 : " + RegPoint + '\n등록하시겠습니까?')) {
+      registerClientData({
+        key: "1",
+        name: RegClientName,
+        phonenumber: RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3,
+        point: RegPoint,
+        buycount: 1,
+      })
+    }
+    window.location.reload();
+  }
+
   return (
     <Main>
       <NameInput
@@ -185,7 +200,16 @@ const RegisterComp = () => {
           }}
         >P</StyledText>        
       </InputBoxReg>
-      <StyledButton>등록</StyledButton>
+      {/* key: String,
+    name: String,
+    phonenumber: String,
+    point: Number,
+    buycount: Number, */}
+      <StyledButton
+        onClick={() => {
+          registerPopup()
+        }}
+      >등록</StyledButton>
     </Main>
   );
 }

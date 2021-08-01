@@ -130,12 +130,20 @@ const AccumulatePoint = () => {
   //적립 확인 팝업
   const checkPopup = () => {
     if (window.confirm(
+      !switchButton ? 
       clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
-      + addPoint+'를 적립합니다!' 
+        + addPoint + '를 적립합니다!' :
+        clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
+        + addPoint + '를 사용합니다!'
     )) {
+      !switchButton ?
       updateClientData({
         phonenumber: staticPhoneNum,
         point: clientInfo.point+ addPoint,
+      }) : 
+      updateClientData({
+        phonenumber: staticPhoneNum,
+        point: clientInfo.point - addPoint,
       });
     }
     window.location.reload();          
