@@ -12,6 +12,7 @@ import reportWebVitals from './reportWebVitals';
 import theme from './style/theme';
 
 document.title = "Rev Membership";
+console.warn = console.error = () => {};
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

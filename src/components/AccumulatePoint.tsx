@@ -123,7 +123,7 @@ const AccumulatePoint = () => {
               borderTopRightRadius: "5px",
               borderBottomRightRadius: "5px",            
             }}
-          >{point.toString()+ "P"}</StyledText>
+          >{point + "P"}</StyledText>
       </InputBox>
       <InputBox>
         <StyledText

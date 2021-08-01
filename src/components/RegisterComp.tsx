@@ -16,7 +16,7 @@ const Main = styled.div`
 const NameInput = styled.input`
   border: none;
   border: 1px solid ${({ theme }) => theme.colors.lightindigo};
-  width: 200px;
+  width: 240px;
   height: 39px;
   text-align: center;
   border-radius: 5px;
@@ -32,7 +32,7 @@ const InputBox = styled.div`
 const StyledInput = styled.input`
   border: none;
   margin: 0 5px 0 5px;
-  width: 60px;
+  width: 80px;
   height: 40px;
   text-align: center;
   font-weight: lighter;
@@ -49,9 +49,8 @@ const StyledInput = styled.input`
 `;
 
 const StyledButton = styled.div`
-  width: 200px;
-  height: 41px;
-  margin-left: 5px;
+  width: 250px;
+  height: 41px;  
   background-color: ${({ theme }) => theme.colors.pointfontcolor};
   color: white;
   font-weight: bold;

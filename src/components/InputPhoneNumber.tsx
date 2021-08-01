@@ -2,6 +2,8 @@ import { Dispatch, FC, ReactElement, SetStateAction } from 'react';
 
 import {ClientData} from '../type';
 import React from 'react';
+import axios from 'axios';
+import { getClientData } from '../api';
 import styled from 'styled-components';
 import theme from '../style/theme';
 import { tmpdata } from '../data/data';
@@ -83,11 +85,6 @@ const Name = styled.div`
   margin-top: 20px;
 `;
 
-const RegisterBox = styled.input`
-
-`;
-
-
 type Props = {
   phoneNum1: string,
   phoneNum2: string,
@@ -107,21 +104,29 @@ const InputPhoneNumber: FC<Props> = ({
   const [HTMLELEMENT_BUTTONREF, setButtonREF] = useState<HTMLDivElement>();  
   const [clientInfo, setClientInfo] = useState<ClientData>({
     key: "",
-    name: "등록된 사용자가 없어요",
+    name: "",
     phonenumber: "",
     point: -1,
     buycount:-1,
   });
 
-  const searchNamebyPhoneNum = (phoneNum: string)=> {    
-    tmpdata.forEach(el => {
-      if (el.phonenumber === phoneNum) {
-        // alert(el.point);
-        setClientInfo(el);
-        setClientPoint(el.point)
-        return;
-      }      
-    });
+  const searchNamebyPhoneNum = async (phoneNum: string) => {
+    const responseData = await getClientData(phoneNum);    
+    // console.log(responseData.length);
+    if (responseData.length > 0) {
+      setClientInfo(responseData[0]);
+      setClientPoint(responseData[0].point);  
+    }
+    else {
+      setClientInfo({        
+        name: "등록된 사용자가 없어요",
+        phonenumber: "",
+        point: -1,        
+      });
+      setClientPoint(0);
+    }
+    
+    
   }
 
   return (
