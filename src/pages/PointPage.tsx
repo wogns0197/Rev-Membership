@@ -17,20 +17,32 @@ const Main = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  height: 70px;
-  border-top: 1px solid ${({theme}) => theme.colors.lightgray};
-  border-bottom: 1px solid ${({theme}) => theme.colors.lightgray};
-  background-color: ${({ theme }) => theme.colors.lightindigo};
+  height: 100px;    
+  background-color: ${({ theme }) => theme.colors.pointfontcoloralpha};
   position: absolute;
   top: 100px;
+  margin:0;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
+  flex-direction: column;  
+`;
+
+const Bottom = styled.div`
+  width:100%;
+  height: 5%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: ${({ theme }) => theme.colors.pointfontcoloralpha};
+  color: ${({ theme }) => theme.colors.pointfontcolor};
 `;
 
 const HeaderMenuCont = styled.ul`
   list-style:none;
-  height: 100%;
+  height: 50%;
   margin: 0 20px 0 0;
 `
 const HeaderMenu = styled.li`
@@ -55,12 +67,10 @@ const ViewComponent = (menuSelect:number) => {
       );
     case 1:
       return (
-        <UsePoint />
-      );
-    case 2:
-      return (
         <RegisterComp />
       );
+    default:
+      break;
   }
   
 }
@@ -70,23 +80,22 @@ const PointPage = () => {
   
   return (
     <Main>
-      <Header>
+      <Header>        
         <HeaderMenuCont>
           <HeaderMenu
             onClick={() => setMenuSelect(0)}
             style={ menuSelect === 0 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}
-          >포인트적립</HeaderMenu>
+          >포인트관리</HeaderMenu>          
           <HeaderMenu
             onClick={() => setMenuSelect(1)}
             style={ menuSelect === 1 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}
-          >포인트사용</HeaderMenu>
-          <HeaderMenu
-            onClick={() => setMenuSelect(2)}
-            style={ menuSelect === 2 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}
           >고객등록</HeaderMenu>
         </HeaderMenuCont>
       </Header>      
       {ViewComponent(menuSelect)}
+      <Bottom>
+        Copyright 2021. 권재훈 all rights reserved.
+      </Bottom>
     </Main>
   );
 }

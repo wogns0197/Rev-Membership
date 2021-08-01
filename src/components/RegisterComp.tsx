@@ -11,7 +11,7 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: -300px;
+  margin-top: -200px;
 `;
 
 const NameInput = styled.input`
@@ -121,7 +121,7 @@ const RegisterComp = () => {
   const [RegPhoneNum1, setRegPhoneNum1] = useState<string>("010");
   const [RegPhoneNum2, setRegPhoneNum2] = useState<string>("");
   const [RegPhoneNum3, setRegPhoneNum3] = useState<string>("");
-  const [RegPoint, setRegPoint] = useState<number>(0);
+  const [RegPoint, setRegPoint] = useState<number>(500);
 
   const registerPopup = () => {
     if (window.confirm('이름 : ' + RegClientName + '\n전화번호 : ' + RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3

@@ -109,6 +109,29 @@ const SwitchPoint = styled.div`
   }
 `;
 
+const SetPointComp = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const SetPointBox = styled.div`
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.colors.pointfontcolor};
+  color: white;
+  font-size: 25pt;  
+  text-align: center;    
+  cursor: pointer;
+  
+  transition: .3s;
+  :hover{
+    transition: .3s;
+    transform: scale(0.95);
+  }
+`;
+
 
 const AccumulatePoint = () => {
   const [staticPhoneNum, setStaticPhoneNum] = useState<string>("");
@@ -129,24 +152,28 @@ const AccumulatePoint = () => {
 
   //적립 확인 팝업
   const checkPopup = () => {
-    if (window.confirm(
-      !switchButton ? 
-      clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
-        + addPoint + '를 적립합니다!' :
-        clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
-        + addPoint + '를 사용합니다!'
-    )) {
-      !switchButton ?
-      updateClientData({
-        phonenumber: staticPhoneNum,
-        point: clientInfo.point+ addPoint,
-      }) : 
-      updateClientData({
-        phonenumber: staticPhoneNum,
-        point: clientInfo.point - addPoint,
-      });
+    if (clientInfo.name !== "등록된 사용자가 없어요") {
+      if (clientInfo.name !== '') {
+        if (window.confirm(
+          !switchButton ?
+            clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
+            + addPoint + '를 적립합니다!' :
+            clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
+            + addPoint + '를 사용합니다!'
+        )) {
+          !switchButton ?
+            updateClientData({
+              phonenumber: staticPhoneNum,
+              point: clientInfo.point + addPoint,
+            }) : clientInfo.point >= addPoint ?
+              updateClientData({
+                phonenumber: staticPhoneNum,
+                point: clientInfo.point - addPoint,
+              }) : alert("포인트부족!");
+        }
+        window.location.reload();
+      }
     }
-    window.location.reload();          
   }
 
   return (    
@@ -205,31 +232,53 @@ const AccumulatePoint = () => {
             }}
           >{point + "P"}</StyledText>
       </InputBox>
-      <InputBox>
-        <StyledText
+
+      <SetPointComp>
+        <div style={{width:'100px'}}></div>
+        <SetPointBox
+          onClick={()=>setAddPoint(addPoint-100)}
+        >-</SetPointBox>
+        <InputBox>
+          <StyledText
+            style={{
+              borderTopLeftRadius: "5px",
+              borderBottomLeftRadius: "5px",
+              color: theme.colors.pointfontcolor,
+            }}
+          >{ !switchButton ?
+            "적립포인트" : "사용포인트"}</StyledText>
+          <StyledInput
+            value={addPoint}
+            type="number"          
+            style={{ width: "60%" }}
+            onChange={(e)=> setAddPoint( parseInt(e.target.value))}
+          />
+          <StyledText
+            style={{
+              width: '10px',
+              padding: '0 10px 0 5px',
+              color: theme.colors.pointfontcolor,
+              borderTopRightRadius: "5px",
+              borderBottomRightRadius: "5px",
+            }}
+          >P</StyledText>
+        </InputBox>
+        <SetPointBox
+          onClick={()=>setAddPoint(addPoint+100)}
+        >+</SetPointBox>
+        <SetPointBox
           style={{
-            borderTopLeftRadius: "5px",
-            borderBottomLeftRadius: "5px",
-            color: theme.colors.pointfontcolor,
+            width: '100px',
+            margin: 0,
+            fontSize: '18pt',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        >{ !switchButton ?
-          "적립포인트" : "사용포인트"}</StyledText>
-        <StyledInput
-          value={addPoint}
-          type="number"          
-          style={{ width: "60%" }}
-          onChange={(e)=> setAddPoint( parseInt(e.target.value))}
-        />
-        <StyledText
-          style={{
-            width: '10px',
-            padding: '0 10px 0 5px',
-            color: theme.colors.pointfontcolor,
-            borderTopRightRadius: "5px",
-            borderBottomRightRadius: "5px",
-          }}
-        >P</StyledText>
-      </InputBox>
+          onClick={()=>setAddPoint(4000)}
+        >4000P</SetPointBox>
+      </SetPointComp>
+
       <InputBox style={{
         justifyContent: "center",        
       }}>
@@ -257,14 +306,17 @@ const AccumulatePoint = () => {
       </InputBox>
       <StyledButton
         style={{
-          backgroundColor: !switchButton ? theme.colors.pointfontcolor : theme.colors.orange,
+          backgroundColor: !switchButton ? theme.colors.pointfontcolor
+            : clientInfo.point >= addPoint ? theme.colors.orange : theme.colors.lightgray,
         }}
         onClick={() => {
           checkPopup()          
         }}
         // 서버작업 필요
       >{ !switchButton ?
-          "적립하기" : "사용하기"}</StyledButton>
+          "적립하기" :
+          clientInfo.point >= addPoint ?
+          "사용하기" : "포인트부족"}</StyledButton>
     </InputCont>
   );
 }

@@ -19,6 +19,7 @@ const Title = styled.div`
   font-size: 50pt;
   position: absolute;
   top: 20px;
+  font-weight: lighter;
 `;
 
 const ButtonCont = styled.div`
@@ -37,7 +38,8 @@ const QuickButton = styled.button`
   width: 100%;
   height: 100%;
   
-  background-color: ${({ theme }) => theme.colors.maincolor};
+  background-color: ${({ theme }) => theme.colors.pointfontcolor};
+  color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -58,7 +60,7 @@ const StyledLink = styled(Link)`
 const MainPage = () => {
   return (
     <Main>
-      <Title>Rev Membership Page</Title>
+      <Title>레브 포인트관리 페이지</Title>
       <ButtonCont>
         <StyledLink to="PointPage">
           <QuickButton>포인트 적립하기</QuickButton>
