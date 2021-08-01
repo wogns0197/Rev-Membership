@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
+import {ClientData} from '../type';
 import InputPhoneNumber from './InputPhoneNumber';
 import styled from 'styled-components';
 import theme from '../style/theme';
+import { updateClientData } from '../api';
 
 const InputCont = styled.div`
   width: 70%;
@@ -61,8 +63,7 @@ const StyledInput = styled.input`
 const StyledButton = styled.button`
   width: 150px;
   height: 60px;
-  margin-top: 10px;
-  background-color: ${({ theme }) => theme.colors.pointfontcolor};
+  margin-top: 10px;  
   border: none;
   color: white;
   font-weight: bold;
@@ -83,28 +84,99 @@ const StyledButton = styled.button`
   }
 `;
 
+const SwitchBox = styled.div`
+  width: 400px;
+  height: 50px;
+  /* border:1px solid gray; */
+  border-radius: 10px;
+  display: flex;
+`;
+
+const SwitchPoint = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  font-size: 16pt;
+
+  transition: .3s;
+  :hover{
+    transition: .3s;
+  }
+`;
+
 
 const AccumulatePoint = () => {
+  const [staticPhoneNum, setStaticPhoneNum] = useState<string>("");
   const [phoneNum1, setphoneNum1] = useState<string>("010");
   const [phoneNum2, setphoneNum2] = useState<string>("");
   const [phoneNum3, setphoneNum3] = useState<string>("");
+  const [clientInfo, setClientInfo] = useState<ClientData>({
+    key: "",
+    name: "",
+    phonenumber: "",
+    point: -1,
+    buycount:-1,
+  });
  
   const [addPoint, setAddPoint] = useState<number>(500);
   const [point, setPoint] = useState<number>(0);
-  //서버에서 불러와야함
-  
+  const [switchButton, setSwitchbutton] = useState<boolean>(false);
+
+  //적립 확인 팝업
+  const checkPopup = () => {
+    if (window.confirm(
+      clientInfo.name + '님의 현재포인트 ' + clientInfo.point + '에 '
+      + addPoint+'를 적립합니다!' 
+    )) {
+      updateClientData({
+        phonenumber: staticPhoneNum,
+        point: clientInfo.point+ addPoint,
+      });
+    }
+    window.location.reload();          
+  }
 
   return (    
     <InputCont>
       <InputPhoneNumber
+        clientInfo={clientInfo}
         phoneNum1 = {phoneNum1}
         phoneNum2={phoneNum2}
-        phoneNum3 = {phoneNum3}
+        phoneNum3={phoneNum3}
+        setStaticPhoneNum = {setStaticPhoneNum}
         setPhoneNum1={setphoneNum1}
         setPhoneNum2={setphoneNum2}
         setPhoneNum3={setphoneNum3}
+        setClientInfo={setClientInfo}
         setClientPoint={setPoint}
       />
+      <SwitchBox>
+        <SwitchPoint
+          style={{
+            border: !switchButton ? '1px solid ' + theme.colors.pointfontcolor :'1px solid ' +theme.colors.orange,
+            borderRight: 0,
+            backgroundColor: !switchButton ? theme.colors.pointfontcolor : 'white',
+            color: !switchButton ? 'white' : theme.colors.pointfontcoloralpha,
+            borderRadius: '10px 0 0 10px'            
+          }}
+          onClick={()=> setSwitchbutton(false)}
+        >포인트적립</SwitchPoint>
+        <SwitchPoint
+          style={{
+            border: switchButton ? '1px solid ' + theme.colors.orange : '1px solid ' + theme.colors.pointfontcolor,
+            borderLeft: 0,
+            backgroundColor: switchButton ? theme.colors.orange : 'white',
+            color: !switchButton ? theme.colors.orangealpha : 'white',
+            borderRadius: '0 10px 10px 0'
+          }}
+          onClick={()=> setSwitchbutton(true)}
+        >포인트사용</SwitchPoint>
+      </SwitchBox>
       <InputBox>
         <StyledText
             style={{
@@ -132,7 +204,8 @@ const AccumulatePoint = () => {
             borderBottomLeftRadius: "5px",
             color: theme.colors.pointfontcolor,
           }}
-        >적립 포인트</StyledText>
+        >{ !switchButton ?
+          "적립포인트" : "사용포인트"}</StyledText>
         <StyledInput
           value={addPoint}
           type="number"          
@@ -158,7 +231,8 @@ const AccumulatePoint = () => {
             borderBottomLeftRadius: "5px",
             color: theme.colors.greenfontcolor,
           }}
-        >적립후 포인트</StyledText>
+        >{ !switchButton ?
+          "적립후 포인트" : "사용후 포인트"}</StyledText>
         <StyledText
           style={{
             justifyContent:'flex-end',
@@ -169,12 +243,20 @@ const AccumulatePoint = () => {
             borderTopRightRadius: "5px",
             borderBottomRightRadius: "5px",            
           }}
-        >{(addPoint + point).toString()+ "P"}</StyledText>
+        >{!switchButton ?
+          (addPoint + point).toString() + "P"
+          : (point - addPoint).toString() + "P"}</StyledText>
       </InputBox>
       <StyledButton
-        // onClick={() => setPoint(addPoint + point)}
+        style={{
+          backgroundColor: !switchButton ? theme.colors.pointfontcolor : theme.colors.orange,
+        }}
+        onClick={() => {
+          checkPopup()          
+        }}
         // 서버작업 필요
-      >적립하기</StyledButton>
+      >{ !switchButton ?
+          "적립하기" : "사용하기"}</StyledButton>
     </InputCont>
   );
 }

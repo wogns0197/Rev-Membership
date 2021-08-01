@@ -1,7 +1,7 @@
 import AccumulatePoint from '../components/AccumulatePoint';
-import CheckPoint from '../components/CheckPoint';
 import React from 'react';
 import RegisterComp from '../components/RegisterComp';
+import UsePoint from '../components/UsePoint';
 import styled from 'styled-components';
 import theme from '../style/theme';
 import { useState } from 'react';
@@ -55,7 +55,7 @@ const ViewComponent = (menuSelect:number) => {
       );
     case 1:
       return (
-        <CheckPoint />
+        <UsePoint />
       );
     case 2:
       return (
@@ -79,7 +79,7 @@ const PointPage = () => {
           <HeaderMenu
             onClick={() => setMenuSelect(1)}
             style={ menuSelect === 1 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}
-          >적립포인트 확인</HeaderMenu>
+          >포인트사용</HeaderMenu>
           <HeaderMenu
             onClick={() => setMenuSelect(2)}
             style={ menuSelect === 2 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}

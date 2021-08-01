@@ -1,12 +1,9 @@
-import { Dispatch, FC, ReactElement, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
-import {ClientData} from '../type';
+import { ClientData } from '../type';
 import React from 'react';
-import axios from 'axios';
 import { getClientData } from '../api';
 import styled from 'styled-components';
-import theme from '../style/theme';
-import { tmpdata } from '../data/data';
 import { useState } from 'react';
 
 interface NameCompProps {
@@ -89,26 +86,32 @@ type Props = {
   phoneNum1: string,
   phoneNum2: string,
   phoneNum3: string,
+  clientInfo: ClientData,
+  setStaticPhoneNum:Dispatch<SetStateAction<string>>,
   setPhoneNum1: Dispatch<SetStateAction<string>>,
   setPhoneNum2: Dispatch<SetStateAction<string>>,
   setPhoneNum3: Dispatch<SetStateAction<string>>,
+  setClientInfo: Dispatch<SetStateAction<ClientData>>,
   setClientPoint: Dispatch<SetStateAction<number>>,
 }
 
 const InputPhoneNumber: FC<Props> = ({
-  phoneNum1,phoneNum2,phoneNum3,setPhoneNum1, setPhoneNum2, setPhoneNum3,setClientPoint
+  phoneNum1,
+  phoneNum2,
+  phoneNum3,
+  clientInfo,
+  setStaticPhoneNum,
+  setPhoneNum1,
+  setPhoneNum2,
+  setPhoneNum3,
+  setClientInfo,
+  setClientPoint,
 }) => {
   
   const [isOpenNameComp, setIsOpenNameComp] = useState<boolean>(false);
   const [HTMLELEMENT_REF3, setREF3] = useState<HTMLInputElement>();
   const [HTMLELEMENT_BUTTONREF, setButtonREF] = useState<HTMLDivElement>();  
-  const [clientInfo, setClientInfo] = useState<ClientData>({
-    key: "",
-    name: "",
-    phonenumber: "",
-    point: -1,
-    buycount:-1,
-  });
+  
 
   const searchNamebyPhoneNum = async (phoneNum: string) => {
     const responseData = await getClientData(phoneNum);    
@@ -118,7 +121,7 @@ const InputPhoneNumber: FC<Props> = ({
       setClientPoint(responseData[0].point);  
     }
     else {
-      setClientInfo({        
+      setClientInfo({
         name: "등록된 사용자가 없어요",
         phonenumber: "",
         point: -1,        
@@ -171,6 +174,7 @@ const InputPhoneNumber: FC<Props> = ({
           onClick={() => {          
             searchNamebyPhoneNum(phoneNum1 + phoneNum2 + phoneNum3)
             setIsOpenNameComp(true);
+            setStaticPhoneNum(phoneNum1 + phoneNum2 + phoneNum3)
             setPhoneNum1("010")
             setPhoneNum2("")
             setPhoneNum3("")                                    
