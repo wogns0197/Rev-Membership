@@ -23,4 +23,12 @@ const d3: ClientData = {
   buycount: 20,
 }
 
+const d4: ClientData = {
+  key: "4",
+  name: "권혁진",
+  phonenumber: "01095506882",
+  point: 2000,
+  buycount: 4,
+}
+
 export const tmpdata: ClientData[] = [d1, d2, d3]

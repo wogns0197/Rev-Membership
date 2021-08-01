@@ -1,8 +1,7 @@
 import AccumulatePoint from '../components/AccumulatePoint';
 import CheckPoint from '../components/CheckPoint';
-import { FC } from 'react';
 import React from 'react';
-import { ReactElement } from 'react';
+import RegisterComp from '../components/RegisterComp';
 import styled from 'styled-components';
 import theme from '../style/theme';
 import { useState } from 'react';
@@ -50,7 +49,7 @@ const HeaderMenu = styled.li`
 
 const ViewComponent = (menuSelect:number) => {
   switch (menuSelect) {
-    case 0:      
+    case 0:
       return (
         <AccumulatePoint />
       );
@@ -59,7 +58,9 @@ const ViewComponent = (menuSelect:number) => {
         <CheckPoint />
       );
     case 2:
-      break;
+      return (
+        <RegisterComp />
+      );
   }
   
 }
@@ -82,7 +83,7 @@ const PointPage = () => {
           <HeaderMenu
             onClick={() => setMenuSelect(2)}
             style={ menuSelect === 2 ? { color : theme.colors.indigo} : { color : theme.colors.lightindigo}}
-          >이용내역</HeaderMenu>
+          >고객등록</HeaderMenu>
         </HeaderMenuCont>
       </Header>      
       {ViewComponent(menuSelect)}

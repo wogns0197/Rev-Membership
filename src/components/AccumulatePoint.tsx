@@ -60,7 +60,8 @@ const StyledInput = styled.input`
 
 const StyledButton = styled.button`
   width: 150px;
-  height: 60px;  
+  height: 60px;
+  margin-top: 10px;
   background-color: ${({ theme }) => theme.colors.pointfontcolor};
   border: none;
   color: white;
@@ -78,6 +79,7 @@ const StyledButton = styled.button`
     transition: .3s;
     transform:scale(1.03);
     border-radius: 10px;
+    background-color: ${({ theme }) => theme.colors.blue};
   }
 `;
 

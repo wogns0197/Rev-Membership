@@ -7,14 +7,19 @@ import theme from '../style/theme';
 import { tmpdata } from '../data/data';
 import { useState } from 'react';
 
+interface NameCompProps {
+  isOpen: boolean,
+}
+
 const Main = styled.div`
   width:100%;
-  height: 100px;  
+  height: 150px;  
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
+
 const InputCont = styled.div`
   display: flex;
   justify-content: center;
@@ -62,8 +67,24 @@ const StyledButton = styled.div`
 // 번호 입력후 자동으로 검색기능 필요
 
 const Name = styled.div`
-  border: 1px solid red;
+  background-color: ${({ theme }) => theme.colors.indigo};
+  color: white;
+  border-radius: 10px;
   width: 400px;
+  /* height: 100px; */
+  height: ${(props:NameCompProps) => props.isOpen ? "200px": "0px"};
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20pt;
+  transition: .3s;
+  margin-top: 20px;
+`;
+
+const RegisterBox = styled.input`
+
 `;
 
 
@@ -81,12 +102,12 @@ const InputPhoneNumber: FC<Props> = ({
   phoneNum1,phoneNum2,phoneNum3,setPhoneNum1, setPhoneNum2, setPhoneNum3,setClientPoint
 }) => {
   
-  
+  const [isOpenNameComp, setIsOpenNameComp] = useState<boolean>(false);
   const [HTMLELEMENT_REF3, setREF3] = useState<HTMLInputElement>();
   const [HTMLELEMENT_BUTTONREF, setButtonREF] = useState<HTMLDivElement>();  
   const [clientInfo, setClientInfo] = useState<ClientData>({
     key: "",
-    name: "",
+    name: "등록된 사용자가 없어요",
     phonenumber: "",
     point: -1,
     buycount:-1,
@@ -99,13 +120,13 @@ const InputPhoneNumber: FC<Props> = ({
         setClientInfo(el);
         setClientPoint(el.point)
         return;
-      }
+      }      
     });
   }
 
   return (
     <Main>
-      <InputCont>
+      <InputCont>        
         <InputBox>
           <StyledInput
             type="number"
@@ -142,17 +163,17 @@ const InputPhoneNumber: FC<Props> = ({
         </InputBox>
         <StyledButton
           ref={(ref) => setButtonREF(ref as any)}
-          onClick={() => {
-            searchNamebyPhoneNum(phoneNum1+phoneNum2+phoneNum3)            
+          onClick={() => {          
+            searchNamebyPhoneNum(phoneNum1 + phoneNum2 + phoneNum3)
+            setIsOpenNameComp(true);
             setPhoneNum1("010")
             setPhoneNum2("")
-            setPhoneNum3("")                        
+            setPhoneNum3("")                                    
           }}
-        >
-          확인
+        >확인
         </StyledButton>
       </InputCont>
-      <Name>{clientInfo?.name} 님</Name>
+      <Name isOpen={isOpenNameComp}>{clientInfo?.name}</Name>      
     </Main>    
   );
 }
