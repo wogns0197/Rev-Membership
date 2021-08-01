@@ -14,7 +14,8 @@ export const registerClientData = async (inData: ClientData) => {
 export const updateClientData = async (inData: ClientData) => {
   // inData = { phonenumber, point }
   await axios.post('http://34.64.229.15:5000/api/updateData', { ...inData })
-  .then(res => {
+    .then(res => {
+    
     console.log(res);
   })
   .catch(err => {
