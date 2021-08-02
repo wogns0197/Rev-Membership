@@ -131,7 +131,9 @@ const RegisterComp = () => {
         name: RegClientName,
         phonenumber: RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3,
         point: RegPoint,
+        pointhistory: [{date:"today", point:1000}],
         buycount: 1,
+        registertime: (new Date()).toLocaleString(),
       })
     }
     window.location.reload();

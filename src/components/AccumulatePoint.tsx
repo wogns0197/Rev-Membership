@@ -165,10 +165,20 @@ const AccumulatePoint = () => {
             updateClientData({
               phonenumber: staticPhoneNum,
               point: clientInfo.point + addPoint,
+              pointhistory: {
+                date: (new Date()).toLocaleString(),
+                point: addPoint,
+              },
+              buycount: clientInfo.buycount+1
             }) : clientInfo.point >= addPoint ?
               updateClientData({
                 phonenumber: staticPhoneNum,
                 point: clientInfo.point - addPoint,
+                pointhistory: {
+                  date: (new Date()).toLocaleString(),
+                  point: -addPoint,
+                },
+                buycount: clientInfo.buycount+1
               }) : alert("포인트부족!");
         }
         window.location.reload();

@@ -115,16 +115,17 @@ const InputPhoneNumber: FC<Props> = ({
 
   const searchNamebyPhoneNum = async (phoneNum: string) => {
     const responseData = await getClientData(phoneNum);    
-    // console.log(responseData.length);
-    if (responseData.length > 0) {
-      setClientInfo(responseData[0]);
-      setClientPoint(responseData[0].point);  
+    console.log(responseData);
+    if (responseData.name !== "") {
+      setClientInfo(responseData);
+      setClientPoint(responseData.point);  
     }
     else {
       setClientInfo({
         name: "등록된 사용자가 없어요",
         phonenumber: "",
-        point: -1,        
+        point: -1,
+        buycount:-1,
       });
       setClientPoint(0);
     }
