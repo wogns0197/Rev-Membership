@@ -41,6 +41,12 @@ export const getClientData = async (phonenumber: string) => {
   return res.data;  
 }
 
+export const getClientDataByName = async (name: string) => {
+  const res = await axios.post('http://localhost:5000/api/getDatabyName', {name});
+  // const res = await axios.post('http://34.64.229.15:5000/api/getAllData', {});
+  return res.data;  
+}
+
 export const getAllClientData = async () => {
   const res = await axios.post('http://localhost:5000/api/getAllData', {});
   // const res = await axios.post('http://34.64.229.15:5000/api/getAllData', {});

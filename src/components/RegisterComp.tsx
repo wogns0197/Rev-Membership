@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { getClientData, registerClientData } from "../api";
 
-import { registerClientData } from "../api";
 import styled from "styled-components";
 import theme from "../style/theme";
 
@@ -123,18 +123,25 @@ const RegisterComp = () => {
   const [RegPhoneNum3, setRegPhoneNum3] = useState<string>("");
   const [RegPoint, setRegPoint] = useState<number>(500);
 
-  const registerPopup = () => {
-    if (window.confirm('이름 : ' + RegClientName + '\n전화번호 : ' + RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3
-    + "\n초기포인트 : " + RegPoint + '\n등록하시겠습니까?')) {
-      registerClientData({
-        key: "1",
-        name: RegClientName,
-        phonenumber: RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3,
-        point: RegPoint,
-        pointhistory: [{date:"today", point:1000}],
-        buycount: 1,
-        registertime: (new Date()).toLocaleString(),
-      })
+  const registerPopup = async () => {
+
+    const isAlreadyData:boolean = (await getClientData(RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3))?.name !== undefined ;
+    if (!isAlreadyData) {
+      if (window.confirm('이름 : ' + RegClientName + '\n전화번호 : ' + RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3
+        + "\n초기포인트 : " + RegPoint + '\n등록하시겠어요?')) {
+        registerClientData({
+          key: "1",
+          name: RegClientName,
+          phonenumber: RegPhoneNum1 + RegPhoneNum2 + RegPhoneNum3,
+          point: RegPoint,
+          pointhistory: [{ date: (new Date()).toLocaleString(), point: RegPoint }],
+          buycount: 1,
+          registertime: (new Date()).toLocaleString(),
+        })
+      }
+    }
+    else {
+      alert("해당번호로 등록된 사용자가 있어요!");
     }
     window.location.reload();
   }

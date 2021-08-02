@@ -2,13 +2,15 @@ import styled, {css} from 'styled-components';
 
 import { FC } from 'react';
 import React from 'react';
+import ViewClientHistory from '../components/ViewClientHistory';
+import { useState } from 'react';
 
 interface bisTitle{
   isTitle: boolean,
 }
 
 const Main = styled.div`
-  width: ${(props: bisTitle) => props.isTitle ? "78%" : "100%"};
+  width: ${(props: bisTitle) => props.isTitle ? "78%" : "97%"};
   height: 50px;
   border-radius: 10px;
   background-color: white; 
@@ -20,7 +22,13 @@ const Main = styled.div`
   align-items: center;
   cursor:pointer;
 
-  border: ${(props: bisTitle) => props.isTitle ? "2px solid skyblue" : "none"};  
+  border: ${(props: bisTitle) => props.isTitle ? "2px solid skyblue" : "none"};
+  
+  transition: .3s;
+  :hover{
+    transition: .3s;
+    transform:scale(1.02);
+  }
 `;
 
 const BoxStyle = css`
@@ -34,7 +42,7 @@ const BoxStyle = css`
 const NameBox = styled.div`
   ${BoxStyle};
   width: 15%;
-  font-weight: bold;
+  font-weight: bold;  
   color: ${({ theme }) => theme.colors.pointfontcolor};
 `;
 
@@ -48,6 +56,8 @@ const PointBox = styled.div`
   width: 15%;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.orange};
+  background-color: ${({ theme }) => theme.colors.lightgray};
+  border-radius: 20px;
 `;
 
 const BuycountBox = styled.div`
@@ -71,6 +81,7 @@ type Props = {
   clientRegisterDate: string,
   clientBuyCount: number | string,
   isTitle: boolean,
+  clientHistory: any,
 }
 
 const ViewClientList:FC<Props> = ({
@@ -80,9 +91,13 @@ const ViewClientList:FC<Props> = ({
   clientRegisterDate,
   clientBuyCount,
   isTitle,
+  clientHistory,
 }) => {
+
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+
   return (
-    <Main isTitle={isTitle}>
+    <Main isTitle={isTitle} onClick={() => setIsClicked(!isClicked) }>
       <NameBox>{clientName}</NameBox>
       <PhonenumBox>        
         {isTitle ? clientPhoneNum :
@@ -91,9 +106,12 @@ const ViewClientList:FC<Props> = ({
           "-" + clientPhoneNum.substr(7,4)}
       </PhonenumBox>
       <PointBox>{clientPoint}</PointBox>
-      <RegisterBox>{clientRegisterDate}</RegisterBox>
+      <RegisterBox>{(clientRegisterDate)?.substr(0,11)}</RegisterBox>
       <BuycountBox>{clientBuyCount}</BuycountBox>
+      {/* {isClicked ? 
+      (<ViewClientHistory />) : null} */}
     </Main>
+    
   );
 }
 

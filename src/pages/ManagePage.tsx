@@ -1,6 +1,5 @@
 import { ClientData } from '../type';
 import React from 'react';
-import ViewClientHistory from '../components/ViewClientHistory';
 import ViewClientList from '../components/ViewClientList';
 import { getAllClientData } from '../api';
 import styled from 'styled-components';
@@ -39,10 +38,10 @@ const ViewComp = styled.div`
   /* border:1px solid ${({ theme }) => theme.colors.pointfontcolor}; */
   border-radius: 5px;
   overflow-y: scroll;
-  /* display: flex;
+  display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  align-items: center; */
+  align-items: center;
 `;
 
 
@@ -79,6 +78,7 @@ const ManagePage = () => {
           clientPoint={"현재포인트"}
           clientRegisterDate={"등록일"}
           clientBuyCount={"이용횟수"}
+          clientHistory = {[]}
         />
         <ViewComp>          
           {
@@ -91,6 +91,7 @@ const ManagePage = () => {
                   clientPoint={DATA[idx].point! + " P"}
                   clientRegisterDate={DATA[idx].registertime!}
                   clientBuyCount={DATA[idx].buycount!}
+                  clientHistory = {DATA[idx].pointhistory}
                 />          
               )
             })
