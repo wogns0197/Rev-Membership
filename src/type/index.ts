@@ -1,4 +1,4 @@
-interface PointHistory{
+export interface PointHistory{
   date: string,
   point: number,
 }

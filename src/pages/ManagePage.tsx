@@ -78,7 +78,7 @@ const ManagePage = () => {
           clientPoint={"현재포인트"}
           clientRegisterDate={"등록일"}
           clientBuyCount={"이용횟수"}
-          clientHistory = {[]}
+          clientHistory = {[{date:"", point:-1}]}
         />
         <ViewComp>          
           {
@@ -91,7 +91,7 @@ const ManagePage = () => {
                   clientPoint={DATA[idx].point! + " P"}
                   clientRegisterDate={DATA[idx].registertime!}
                   clientBuyCount={DATA[idx].buycount!}
-                  clientHistory = {DATA[idx].pointhistory}
+                  clientHistory = {DATA[idx].pointhistory!}
                 />          
               )
             })

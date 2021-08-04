@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components';
 
 import { FC } from 'react';
+import {PointHistory} from '../type';
 import React from 'react';
 import ViewClientHistory from '../components/ViewClientHistory';
 import { useState } from 'react';
@@ -10,6 +11,14 @@ interface bisTitle{
 }
 
 const Main = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Box = styled.div`
   width: ${(props: bisTitle) => props.isTitle ? "78%" : "97%"};
   height: 50px;
   border-radius: 10px;
@@ -81,7 +90,7 @@ type Props = {
   clientRegisterDate: string,
   clientBuyCount: number | string,
   isTitle: boolean,
-  clientHistory: any,
+  clientHistory: PointHistory[]
 }
 
 const ViewClientList:FC<Props> = ({
@@ -97,19 +106,21 @@ const ViewClientList:FC<Props> = ({
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   return (
-    <Main isTitle={isTitle} onClick={() => setIsClicked(!isClicked) }>
-      <NameBox>{clientName}</NameBox>
-      <PhonenumBox>        
-        {isTitle ? clientPhoneNum :
-          clientPhoneNum.substr(0, 3) +
-          "-" + clientPhoneNum.substr(3, 4) + 
-          "-" + clientPhoneNum.substr(7,4)}
-      </PhonenumBox>
-      <PointBox>{clientPoint}</PointBox>
-      <RegisterBox>{(clientRegisterDate)?.substr(0,11)}</RegisterBox>
-      <BuycountBox>{clientBuyCount}</BuycountBox>
-      {/* {isClicked ? 
-      (<ViewClientHistory />) : null} */}
+    <Main>
+      <Box isTitle={isTitle} onClick={() => setIsClicked(!isClicked) }>
+        <NameBox>{clientName}</NameBox>
+        <PhonenumBox>        
+          {isTitle ? clientPhoneNum :
+            clientPhoneNum.substr(0, 3) +
+            "-" + clientPhoneNum.substr(3, 4) + 
+            "-" + clientPhoneNum.substr(7,4)}
+        </PhonenumBox>
+        <PointBox>{clientPoint}</PointBox>
+        <RegisterBox>{(clientRegisterDate)?.substr(0,11)}</RegisterBox>
+        <BuycountBox>{clientBuyCount}</BuycountBox>      
+      </Box>
+      {isTitle ? null : isClicked ? 
+      (<ViewClientHistory clientHistory={clientHistory} />) : null}           
     </Main>
     
   );

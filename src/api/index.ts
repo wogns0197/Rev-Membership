@@ -22,6 +22,7 @@ interface UpdateDataType{
   buycount?: number,
 }
 
+
 export const updateClientData = async (inData: UpdateDataType) => {
   // inData = { phonenumber, point }
   // await axios.post('http://localhost:5000/api/updateData', { ...inData })
