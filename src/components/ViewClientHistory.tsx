@@ -58,7 +58,8 @@ const PointBox =styled.div`
   height: 20px;
   border-radius: 20px;
   border: ${(props: bisPlus) => props.isPlus ? '1px solid #3792f9' : '1px solid #FF4500'};
-  background-color: white;
+  background-color: ${(props: bisPlus) => props.isPlus ? '#3792f9' : '#FF4500'};  
+  color: white;
   display:flex;
   justify-content: center;
   align-items: center;    

@@ -20,7 +20,7 @@ const Header = styled.div`
   height: 100px;    
   background-color: ${({ theme }) => theme.colors.pointfontcoloralpha};
   position: absolute;
-  top: 100px;
+  top: 0px;
   margin:0;
   display: flex;
   justify-content: center;
@@ -33,11 +33,12 @@ const Bottom = styled.div`
   height: 5%;
   position: absolute;
   bottom: 0;
+  font-size:10pt;
+  color: white;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  background-color: ${({ theme }) => theme.colors.pointfontcoloralpha};
-  color: ${({ theme }) => theme.colors.pointfontcolor};
+  background-color: ${({ theme }) => theme.colors.pointfontcoloralpha}; 
 `;
 
 const HeaderMenuCont = styled.ul`

@@ -4,6 +4,7 @@ import { FC } from 'react';
 import {PointHistory} from '../type';
 import React from 'react';
 import ViewClientHistory from '../components/ViewClientHistory';
+import { removeClientData } from '../api';
 import { useState } from 'react';
 
 interface bisTitle{
@@ -15,7 +16,7 @@ const Main = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column;  
 `;
 
 const Box = styled.div`
@@ -81,6 +82,19 @@ const RegisterBox = styled.div`
   color:#483D8B;
 `;
 
+const DeleteBox = styled.div`
+  width: 30px;
+  height: 20px;
+  font-size:10pt;
+  border-radius: 5px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;  
+`;
 
 
 type Props = {
@@ -91,6 +105,7 @@ type Props = {
   clientBuyCount: number | string,
   isTitle: boolean,
   clientHistory: PointHistory[]
+  isDelete: boolean,
 }
 
 const ViewClientList:FC<Props> = ({
@@ -101,9 +116,18 @@ const ViewClientList:FC<Props> = ({
   clientBuyCount,
   isTitle,
   clientHistory,
+  isDelete,
 }) => {
 
   const [isClicked, setIsClicked] = useState<boolean>(false);
+
+  const removePopup = (name: string, phonenum: string) => {
+    if (window.confirm('삭제시 복구가 불가능합니다. 정말로 삭제하시겠어요 ?')) {
+      removeClientData(name, phonenum);
+      window.location.reload();
+      alert('삭제완료');
+    }
+  }
 
   return (
     <Main>
@@ -117,7 +141,15 @@ const ViewClientList:FC<Props> = ({
         </PhonenumBox>
         <PointBox>{clientPoint}</PointBox>
         <RegisterBox>{(clientRegisterDate)?.substr(0,11)}</RegisterBox>
-        <BuycountBox>{clientBuyCount}</BuycountBox>      
+        <BuycountBox>{clientBuyCount}</BuycountBox>
+        {isDelete ?
+          (<DeleteBox
+            onClick={()=>removePopup(clientName, clientPhoneNum)}
+          >
+            삭제
+          </DeleteBox>) : null
+        }
+        
       </Box>
       {isTitle ? null : isClicked ? 
       (<ViewClientHistory clientHistory={clientHistory} />) : null}           
